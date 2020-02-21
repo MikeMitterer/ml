@@ -1,10 +1,10 @@
 {
-    "name": "@mmit/ml-vue",
+    "name": "@mmit/ml",
     "version": "0.1.9",
     "author": "Mike Mitterer",
-    "description": "VUE Starter-Template",
+    "description": "Mix of Machine-Learning-Examples - visualized with VUE and TypeScript",
     "keywords": [
-        "typescript vue"
+        "typescript vue ml machine learning"
     ],
     "private": true,
     "scripts": {
@@ -20,8 +20,9 @@
     },
     "repository": {
         "type": "git",
-        "url": ""
+        "url": "https://github.com/MikeMitterer/ml"
     },
+    "license": "MIT",
     "dependencies": {
         "@mmit/logging": "^0.1.5",
         "@tensorflow/tfjs": "^1.5.2",
