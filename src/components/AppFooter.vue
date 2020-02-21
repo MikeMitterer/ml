@@ -27,20 +27,22 @@ import CounterModule from '../store/modules/CounterModule';
 
 @Component
 export default class AppFooter extends Vue {
-    @Prop({ default: process.env.VUE_APP_TITLE })
-    private title!: string;
+
+    private get title(): string {
+        return process.env.VUE_APP_TITLE ?? '<process.env.VUE_APP_TITLE = undefined>';
+    }
 
     public get published(): string {
-        return process.env.VUE_APP_PUBLISHED || '<process.env.VUE_APP_PUBLISHED = undefined>';
+        return process.env.VUE_APP_PUBLISHED ?? '<process.env.VUE_APP_PUBLISHED = undefined>';
     }
 
     public get version(): string {
-        return process.env.VUE_APP_VERSION || '<process.env.VUE_APP_VERSION = undefined>';
+        return process.env.VUE_APP_VERSION ?? '<process.env.VUE_APP_VERSION = undefined>';
     }
 
     public get devmode(): boolean {
         const devMode =
-            process.env.VUE_APP_DEV_MODE || '<process.env.VUE_APP_DEV_MODE = undefined>';
+            process.env.VUE_APP_DEV_MODE ?? '<process.env.VUE_APP_DEV_MODE = undefined>';
 
         return devMode === 'true';
     }

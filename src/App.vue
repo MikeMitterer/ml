@@ -45,7 +45,7 @@
                 <router-view />
             </v-container>
         </v-content>
-        <AppFooter title="Mike"></AppFooter>
+        <AppFooter></AppFooter>
         <!--        <v-footer fixed dark>Hallo TEST</v-footer>-->
         <!--    </div>-->
     </v-app>
