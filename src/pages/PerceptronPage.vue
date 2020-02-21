@@ -34,6 +34,7 @@
                 ></v-slider>
                 ({{iterations}})
             </div>
+            <!--
             <div class="bias">
                 <v-slider
                         v-model="bias"
@@ -44,6 +45,7 @@
                 ></v-slider>
                 ({{bias}})
             </div>
+            -->
             <v-switch class="mt-0" v-model="useORDataset"
                       :label="`Use OR Dataset (${useORDataset ? 'OR' : 'AND'})`"></v-switch>
             <div class="data">
@@ -95,9 +97,9 @@
 
         private playerState: PlayerState = 'pause';
         private iterations: number = 50;
-        private bias: number = 0.5;
+        // private bias: number = 0.5;
 
-        private graph: Plotly.PlotlyHTMLElement | undefined;
+        // private graph: Plotly.PlotlyHTMLElement | undefined;
 
         private useORDataset = true;
 
@@ -202,10 +204,10 @@
                     this.json = this.json.map((value) => '');
                     if (this.perceptron instanceof Perceptron) {
                         this.perceptron.subscribe(this.observer);
+
+                        this.plot({ init: true });
                         this.perceptron.train(
-                            this.useORDataset ? getORDataset() : getANDDataset(),
-                            0.2,
-                            this.bias);
+                            this.useORDataset ? getORDataset() : getANDDataset());
                     }
                     break;
 
@@ -223,7 +225,7 @@
             this.logger.info("UseOrDataset", this.data);
 
             // await plt.redraw(this.element);
-            this.plot();
+            this.plot({ init: true });
         }
 
         private get element(): HTMLElement {
@@ -234,7 +236,7 @@
             return el;
         }
 
-        private async plot(drawLine: boolean = true): Promise<void> {
+        private plot({ init = false }: { init?: boolean } = {}): void {
             const layout: Partial<plt.Layout> = {
                 title: 'Perceptron',
                 showlegend: true,
@@ -262,21 +264,25 @@
             layout.shapes![0].x1 = this.boundary.x1;
             layout.shapes![0].y1 = this.boundary.y1;
 
-            if(!drawLine) {
+            if(init) {
                 layout.shapes = [];
             }
             
             // https://plot.ly/javascript/configuration-options/#never-display-the-modebar
             // redraw anstatt newPlot... ist auch möglich
-            this.graph = await plt.newPlot(this.element, this.data,
-                layout, { displayModeBar: false, responsive: false });
-
+            if(init) {
+                /* this.graph = await */  plt.newPlot(this.element, this.data,
+                    layout, { displayModeBar: false, responsive: false });
+            } else {
+                /* this.graph = await */ plt.react(this.element, this.data,
+                    layout, { displayModeBar: false, responsive: false });
+            }
         }
 
         // - LiveCycle-Hooks -----------------------------------------------------------------------
 
         private async mounted(): Promise<void> {
-            this.plot(false);
+            this.plot({ init: true });
 
             // setInterval(async () => {
             //     // Vue.set(this.trace1.x as [],0, Math.round(Math.random()));

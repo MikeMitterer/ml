@@ -31,9 +31,8 @@ export class Perceptron extends AbstractObservable {
     private readonly epochs: number;
     private weights: number[] = [];
     private bias: number = 0.5;
-    private threshold = 0.5;
 
-    constructor(epochs: number = 50) {
+    constructor(epochs: number = 100) {
         super();
         this.epochs = epochs;
     }
@@ -90,7 +89,7 @@ export class Perceptron extends AbstractObservable {
     }
 
     private activation(product: number): boolean {
-        if(product > 0.5) {
+        if(product >= 0.5) {
             return true;
         } else {
             return false;
