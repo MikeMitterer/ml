@@ -169,6 +169,8 @@
         }
 
         // - LiveCycle-Hooks -----------------------------------------------------------------------
+
+        // noinspection JSUnusedLocalSymbols
         private async mounted(): Promise<void> {
             this.logger.debug('Loading model...');
             this.mobilenet = await tf.loadLayersModel(MOBILENET_MODEL_PATH);

@@ -25,6 +25,7 @@
     "license": "MIT",
     "dependencies": {
         "@mmit/logging": "^0.1.5",
+        "@tensorflow-models/knn-classifier": "^1.2.2",
         "@tensorflow-models/mobilenet": "^2.0.4",
         "@tensorflow/tfjs": "^1.7.1",
         "@types/chart.js": "^2.9.18",

@@ -2,8 +2,19 @@
     <div class="m-sample-link body-2 blue-grey--text lighten-4">
         <label for="name">Code/Sample-Base:</label>
         <span id="name" class="font-weight-bold">{{ name }}</span>
-        <label for="link">Link:</label>
-        <a id="link" class="blue-grey--text lighten-4" :href="link" target="_blank">{{ link }}</a>
+        <label for="link">Link(s):</label>
+        <div id="link">
+            <a
+                v-for="link in links"
+                :key="link"
+                class="link blue-grey--text lighten-4"
+                :href="link"
+                target="_blank"
+            >
+                {{ link }}
+            </a>
+        </div>
+
         <label v-if="github !== ''" for="github">GitHub:</label>
         <a
             v-if="github !== ''"
@@ -28,10 +39,18 @@
         private name!: string;
 
         @Prop({ default: '' })
-        private link!: string;
+        private link!: string | string[];
 
         @Prop({ default: '' })
         private github!: string;
+
+        private get links(): string[] {
+            if (Array.isArray(this.link)) {
+                return this.link;
+            } else {
+                return [this.link];
+            }
+        }
         // - LiveCycle-Hooks -----------------------------------------------------------------------
 
         // private async mounted(): Promise<void> {
@@ -50,7 +69,7 @@
 
         display: grid;
         grid-column-gap: 5px;
-        grid-template-columns: auto 250px;
+        grid-template-columns: auto 300px;
 
         font-size: 70% !important;
         line-height: 140%;
@@ -60,6 +79,7 @@
         }
 
         a {
+            display: block;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
