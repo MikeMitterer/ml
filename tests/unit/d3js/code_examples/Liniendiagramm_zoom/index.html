@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.js"></script>
+        <title>Line Chart zoom</title>
+
+        <style>
+
+            html, body {
+                height: 100%;
+                margin: 0;
+            }
+
+            .svg_canvas {
+                display: block;
+                margin: 0 auto;
+                background-color: gray;
+            }
+
+            .population_line {
+                fill: none;
+                stroke: white;
+                stroke-width: 2;
+            }
+        </style>
+    </head>
+    <body>
+        <svg height="400" width="600" class="svg_canvas">
+        </svg>
+
+        <script>
+            
+            var worldPopulation = [
+                {
+                    "time": "1950-01-01",
+                    "population": 2.53
+                },
+                {
+                    "time": "1960-01-01",
+                    "population": 3.03
+                },
+                {
+                    "time": "1970-01-01",
+                    "population": 3.69
+                },
+                {
+                    "time": "1990-01-01",
+                    "population": 4.45
+                },
+                {
+                    "time": "2000-01-01",
+                    "population": 5.32
+                }
+            ];
+
+            var zoom = d3.zoom()
+                .on("zoom", zoomed);
+
+            var x = d3.scaleTime()
+                .range([0, 500])
+                .domain([new Date("1950-01-01"), new Date("2000-01-01")]);
+
+            var y = d3.scaleLinear()
+                .range([300, 0])
+                .domain([0,6]);    
+
+            var xAxisGenerator = d3.axisBottom()
+                .scale(x);
+
+            var yAxisGenerator = d3.axisLeft()
+                .scale(y)
+                .tickFormat(function(d){return d + " Mrd."})  
+
+            var lineGenerator = d3.line()
+                .x(function(d) { return x(new Date(d.time)); })
+                .y(function(d) { return y(d.population); });
+
+            var svg = d3.select("svg")
+                .call(zoom)
+                .on("dblclick.zoom", null)
+                .append("g")
+                .attr("transform","translate(60,0)");
+
+            var xAxis = svg.append("g")
+                .attr("class", "x_axis")
+                .attr("transform","translate(0,320)")
+                .call(xAxisGenerator);
+
+            var yAxis = svg.append("g")
+                .attr("class", "y_axis")
+                .attr("transform","translate(0,20)")
+                .call(yAxisGenerator);    
+
+            var line = svg.append("path")
+                .data([worldPopulation])
+                .attr("d", lineGenerator)
+                .attr("class","population_line");
+
+            function zoomed() {
+                line.attr("transform","translate(" + d3.event.transform.x + ",0)scale(" + d3.event.transform.k + ",1)");
+                xAxis.call(xAxisGenerator.scale(d3.event.transform.rescaleX(x)));
+            }    
+
+        </script>    
+    </body>
+</html>    

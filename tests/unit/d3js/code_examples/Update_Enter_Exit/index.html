@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.js"></script>
+        <title>Update Enter Exit</title>
+
+        <style>
+
+            html, body {
+                height: 100%;
+                margin: 0;
+            }
+
+            .svg_canvas {
+                display: block;
+                margin: 0 auto;
+                background-color: gray;
+            }
+
+            .my_element_updated {
+                stroke-width: 2;
+                stroke: blue;
+            }
+        </style>
+    </head>
+    <body>
+        <svg height="400" width="600" class="svg_canvas">
+        </svg>
+        <button onclick="changeData()">Change Data</button>
+
+        <script>
+
+            var dataJSON = [
+                {
+                    "color": "#f44242",
+                    "width": 100
+                },
+                {
+                    "color": "#f4a641",
+                    "width": 200
+                },
+                {
+                    "color": "#f4e841",
+                    "width": 150
+                },
+                {
+                    "color": "#acf441",
+                    "width": 116
+                }
+            ];
+
+            var dataJSON2 = [
+                {
+                    "color": "#f44242",
+                    "width": 100
+                },
+                {
+                    "color": "#f4a641",
+                    "width": 200
+                },
+                {
+                    "color": "#f4e841",
+                    "width": 150
+                }
+            ];
+
+            d3.select(".svg_canvas")
+                .selectAll("rect")
+                .data(dataJSON)
+                .enter()
+                .append("rect")
+                .attr("x", "200")
+                .attr("y", function(d,i){
+                    return (i+1)*20;
+                })
+                .attr("width", function(d){
+                    return d.width;
+                })
+                .attr("height", "20")
+                .attr("class", "my_element")
+                .style("fill", function(d,i){
+                    return d.color;
+                });
+
+            function changeData() {
+                
+                const rects = d3.select(".svg_canvas")
+                    .selectAll("rect")
+
+                    // hier findet ein Vergleich zwischen den alten und den neuen Daten
+                    // statt
+                    .data(dataJSON2);
+
+                // UPDATE
+                rects
+                    .attr("class","my_element_updated");
+
+                // ENTER
+                rects
+                    .enter()
+                    .append("rect")
+                    .attr("x", "200")
+                    .attr("y", function(d,i){
+                        return (i+1)*20;
+                    })
+                    .attr("width", function(d){
+                        return d.width;
+                    })
+                    .attr("height", "20")
+                    .attr("class", "my_element")
+                    .style("fill", function(d,i){
+                        return d.color;
+                    });
+
+                // EXIT
+                rects.exit().remove();
+            }
+
+        </script>    
+    </body>
+</html>    

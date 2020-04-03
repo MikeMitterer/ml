@@ -52,21 +52,22 @@
 </template>
 
 <script lang="ts">
+import { Link } from "@/model/interfaces/Link";
 import { Component, Vue } from 'vue-property-decorator';
 import AppFooter from './components/AppFooter.vue';
 import AppHeader from './components/AppHeader.vue';
 
-interface Link {
-    icon: string;
-    text: string;
-    route: string;
-}
+
 
 @Component({ components: { AppFooter, AppHeader } })
 export default class App extends Vue {
     public drawer: boolean = false;
 
-    /** Menü im Drawer */
+    /**
+     * Menü im Drawer
+     * Mehr:
+     *      https://materialdesignicons.com/
+     */
     public links: Link[] = [
         { icon: 'cactus', text: 'Kaktus', route: '/' },
         { icon: 'cake-layered', text: 'Kuchen', route: '/' },

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.js"></script>
+        <title>Timeline</title>
+
+        <style>
+
+            html, body {
+                height: 100%;
+                margin: 0;
+            }
+
+            .svg_canvas {
+                display: block;
+                margin: 0 auto;
+                background-color: gray;
+            }
+        </style>
+    </head>
+    <body>
+        <svg height="400" width="600" class="svg_canvas">
+        </svg>
+
+        <script>
+            
+            var dataJSON = [
+                {
+                    "artist": "W. A. Mozart",
+                    "color": "#f44242",
+                    "startDate": new Date(1756,00,27),
+                    "endDate": new Date(1791,11,05),
+                },
+                {
+                    "artist": "A. Vivaldi",
+                    "color": "#f4a641",
+                    "startDate": new Date(1678,02,04),
+                    "endDate": new Date(1741,06,28)
+                },
+                {
+                    "artist": "A. Dvorak",
+                    "color": "#f4e841",
+                    "startDate": new Date(1841,08,08),
+                    "endDate": new Date(1904,4,1)
+                },
+                {
+                    "artist": "J. Haydn",
+                    "color": "#acf441",
+                    "startDate": new Date(1732,02,31),
+                    "endDate": new Date(1809,04,31)
+                }
+            ];
+
+            var x = d3.scaleTime()
+                .range([0,500])
+                .domain([new Date(1670,00,01), new Date(1920,00,01)]);
+
+            var xAxisGenerator = d3.axisBottom()
+                .scale(x);
+
+            var svg = d3.select("svg")
+                .append("g")
+                .attr("transform","translate(40,0)");
+
+            var xAxis = svg.append("g")
+                .attr("class","x_axis")
+                .attr("transform","translate(0,150)")
+                .call(xAxisGenerator);
+
+            var bars = svg
+                .selectAll("rect")
+                .data(dataJSON)
+                .enter()
+                .append("rect")
+                .attr("x", function(d){
+                    return x(d.startDate);
+                })
+                .attr("y", function(d,i){
+                    return (i+1)*22;
+                })   
+                .attr("width", function(d){
+                    return x(d.endDate) - x(d.startDate);
+                })
+                .attr("height","20")
+                .style("fill", function(d,i){
+                    return d.color;
+                })
+        </script>    
+    </body>
+</html>    

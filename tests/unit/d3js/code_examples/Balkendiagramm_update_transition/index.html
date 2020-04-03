@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.js"></script>
+        <title>Bar Chart Update + Transition</title>
+
+        <style>
+
+            html, body {
+                height: 100%;
+                margin: 0;
+            }
+
+            .svg_canvas {
+                display: block;
+                margin: 0 auto;
+                background-color: gray;
+            }
+        </style>
+    </head>
+    <body>
+        <svg height="400" width="600" class="svg_canvas">
+        </svg>
+        <button onclick="draw()">Update</button>
+
+        <script>
+            
+            const dataJSON = [
+                {
+                    "color": "#f44242",
+                    "width": 100
+                },
+                {
+                    "color": "#f4a641",
+                    "width": 200
+                },
+                {
+                    "color": "#f4e841",
+                    "width": 150
+                },
+                {
+                    "color": "#acf441",
+                    "width": 116
+                }
+            ];
+
+            const dataJSON2 = [
+                {
+                    "color": "#f44242",
+                    "width": 84
+                },
+                {
+                    "color": "#f4a641",
+                    "width": 150
+                },
+                {
+                    "color": "#f4e841",
+                    "width": 220
+                },
+                {
+                    "color": "#acf441",
+                    "width": 240
+                },
+                {
+                    "color": "#3399ff",
+                    "width": 150
+                },
+                {
+                    "color": "#9966ff",
+                    "width": 56
+                }
+            ];
+
+            const x = d3.scaleLinear()
+                .range([0,500])
+                .domain([0,300]);
+
+            const xAxisGenerator = d3.axisBottom()
+                .scale(x);
+
+            const svg = d3.select("svg")
+                .append("g")
+                .attr("transform","translate(40,0)");
+
+            const xAxis = svg
+                .append("g")
+                .attr("id","x-axis")
+                .attr("transform","translate(0,150)")
+                .call(xAxisGenerator);
+
+            // const bars = svg
+            //     .selectAll("rect")
+            //     .data(dataJSON)
+            //     .enter()
+            //     .append("rect")
+            //     .attr("x", x(0))
+            //     .attr("y", function(d,i){
+            //         return (i+1) * 22;
+            //     })
+            //     .attr("width", function(d){
+            //         return x(d.width);
+            //     })
+            //     .attr("height",20)
+            //     .style("fill", function(d){
+            //         return d.color;
+            //     });
+
+            draw(dataJSON);
+
+            const draw = (data) => {
+
+                d3.select("#x-axis")
+                    .transition()
+                    .attr("transform","translate(0," + (data.length * 22 + 150) + ")");
+
+                const bars = svg   
+                    .selectAll("rect")
+                    .data(data);
+
+                // UPDATE
+                bars
+                    .transition()
+                    .attr("width", function(d){
+                        return x(d.width);
+                    });
+
+                // ENTER
+                bars
+                    .enter()
+                    .append("rect")
+                    .style("fill", function(d){
+                        return d.color;
+                    })
+                    .transition()
+                    .attr("x", x(0))
+                    .attr("y", function(d,i){
+                        return (i+1) * 22;
+                    })
+                    .attr("width", function(d){
+                        return x(d.width);
+                    })
+                    .attr("height",20);
+
+                // EXIT
+                bars.exit().remove();
+
+            }
+
+        </script>    
+    </body>
+</html>    

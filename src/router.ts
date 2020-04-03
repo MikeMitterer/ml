@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HomePage from './pages/HomePage.vue';
+import Dashboad from './pages/Dashboard.vue';
 
 Vue.use(Router);
 
@@ -11,13 +11,25 @@ export default new Router({
         {
             path: '/',
             name: 'home',
-            component: HomePage,
+            component: Dashboad,
         },
         {
             path: '/perceptron',
             name: 'perceptron',
             component: (): Promise<typeof import('*.vue')> =>
-                import(/* webpackChunkName: "about" */ './pages/PerceptronPage.vue'),
+                import(/* webpackChunkName: "about" */ './pages/sub/PerceptronPage.vue'),
+        },
+        {
+            path: '/imgclassification',
+            name: 'imgclassification',
+            component: (): Promise<typeof import('*.vue')> =>
+                import(/* webpackChunkName: "about" */ './pages/sub/ImageClassificationPage.vue'),
+        },
+        {
+            path: '/imgclassificationwebcam',
+            name: 'imgclassificationwebcam',
+            component: (): Promise<typeof import('*.vue')> =>
+                import(/* webpackChunkName: "about" */ './pages/sub/ImageClassificationWebCam.vue'),
         },
         {
             path: '/about',

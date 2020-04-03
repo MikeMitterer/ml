@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "strict": true,
+        "incremental": true,
 
         "target": "es6",
         "module": "esnext",
@@ -43,8 +44,10 @@
         "src/**/*.ts",
         "src/**/*.tsx",
         "src/**/*.vue",
+
         "tests/**/*.ts",
         "tests/**/*.tsx",
+
         // Damit werden die images erkannt
         "src/browser/**/*.ts",
         "src/site/images/typings.d.ts",

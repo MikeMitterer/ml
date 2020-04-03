@@ -5,4 +5,7 @@ module.exports = {
     singleQuote: true,
     printWidth: 100,
     arrowParens: 'always',
+    htmlWhitespaceSensitivity: 'ignore',
+    jsxBracketSameLine: true,
+    vueIndentScriptAndStyle: true
 };

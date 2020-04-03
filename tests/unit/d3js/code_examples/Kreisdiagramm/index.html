@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.js"></script>
+        <title>Pie Chart</title>
+
+        <style>
+
+            html, body {
+                height: 100%;
+                margin: 0;
+            }
+
+            .svg_canvas {
+                display: block;
+                margin: 0 auto;
+                background-color: gray;
+            }
+
+        </style>
+    </head>
+    <body>
+        <svg height="400" width="600" class="svg_canvas">
+        </svg>
+
+        <script>
+            
+            var worldPopulation = [
+                {
+                    "time": "1950-01-01",
+                    "population": 2.53
+                },
+                {
+                    "time": "1960-01-01",
+                    "population": 3.03
+                },
+                {
+                    "time": "1970-01-01",
+                    "population": 3.69
+                },
+                {
+                    "time": "1990-01-01",
+                    "population": 4.45
+                },
+                {
+                    "time": "2000-01-01",
+                    "population": 5.32
+                }
+            ];
+
+            var color = d3.scaleOrdinal(["#f44242", "#f4a641", "#f4e841", "#acf441", "#41f479", "#41f4f4", "#419af4"]);
+
+            var pie = d3.pie()
+                .sort(null)
+                .value(function(d){return d.population;})
+
+            var path = d3.arc()
+                .outerRadius(150)
+                .innerRadius(0);
+
+            var svg = d3.select("svg")
+                .append("g")
+                .attr("transform","translate(300,160)");
+
+            var arc = svg.selectAll(".arc")
+                .data(pie(worldPopulation))  
+                .enter()
+                .append("g")
+                .attr("class","arc");
+
+            arc.append("path")
+                .attr("d", path)
+                .style("fill", function(d){
+                    return color(d.data.time);
+                });      
+
+        </script>    
+    </body>
+</html>    
