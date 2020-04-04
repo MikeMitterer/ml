@@ -87,7 +87,7 @@
             // Get the intermediate activation of MobileNet 'conv_preds' and pass that
             // to the KNN classifier.
             // @ts-ignore
-            const activation = this.net.infer(img, 'conv_preds');
+            const activation = this.net.infer(img, true);
 
             // Pass the intermediate activation to the classifier.
             this.classifier.addExample(activation, classID);
@@ -109,7 +109,7 @@
 
                 // Get the activation from mobilenet from the webcam.
                 // @ts-ignore
-                const activation = this.net.infer(img, 'conv_preds');
+                const activation = this.net.infer(img, true);
                 // Get the most likely class and confidence from the classifier module.
                 const result = await this.classifier.predictClass(activation);
 
